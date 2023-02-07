@@ -39,7 +39,7 @@ def get_text_messages(message):
 
     if message.text == 'Make schedule': # создание расписания
         bot.send_message(message.chat.id, 'Choose month')
-        bot.register_next_step_handler(message, register_month) # переход к следующему шагу
+        # bot.register_next_step_handler(message, register_month) # переход к следующему шагу
 
     elif message.text == 'Leave':
         global month, days
@@ -48,30 +48,30 @@ def get_text_messages(message):
         markup = types.ReplyKeyboardRemove()
         bot.send_message(message.chat.id, 'Goodbye', reply_markup=markup)
 
-def register_month(message): # запись выбранного месяца
-    global month
-    month = message.text
-    try: # проверка на правильный формат
-        month = int(month) 
-        if month not in range(1, 13):
-            raise ValueError
-    except ValueError:
-        bot.send_message(message.from_user.id, 'Incorrect month')
-        bot.register_next_step_handler(message, register_month)
-    if isinstance(month, int) and month in range(1, 13):
-        bot.send_message(message.chat.id, "Ok, choose days")
-        bot.register_next_step_handler(message, register_days) # переход к записи дней
+# def register_month(message): # запись выбранного месяца
+#     global month
+#     month = message.text
+#     try: # проверка на правильный формат
+#         month = int(month) 
+#         if month not in range(1, 13):
+#             raise ValueError
+#     except ValueError:
+#         bot.send_message(message.from_user.id, 'Incorrect month')
+#         bot.register_next_step_handler(message, register_month)
+#     if isinstance(month, int) and month in range(1, 13):
+#         bot.send_message(message.chat.id, "Ok, choose days")
+#         bot.register_next_step_handler(message, register_days) # переход к записи дней
 
-def register_days(message): # запись выбранных дней
-    global days
-    days = message.text.split()
+# def register_days(message): # запись выбранных дней
+#     global days
+#     days = message.text.split()
     
-    try: # проверка на правильный формат
-        days = list(map(int, days))      
-    except Exception:
-        bot.send_message(message.from_user.id, 'Enter the dates in the correct format, for example: 1 2 3 4 5')
-        bot.register_next_step_handler(message, register_days)
-    if all(isinstance(i, int) for i in days):
-        bot.send_message(message.chat.id, "Ok")
+#     try: # проверка на правильный формат
+#         days = list(map(int, days))
+#     except Exception:
+#         bot.send_message(message.from_user.id, 'Enter the dates in the correct format, for example: 1 2 3 4 5')
+#         bot.register_next_step_handler(message, register_days)
+#     if all(isinstance(i, int) for i in days):
+#         bot.send_message(message.chat.id, "Ok")
 
 bot.polling(non_stop=True)
