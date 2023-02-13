@@ -7,6 +7,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
 }
 
+# Парсер расписания: день, пара, основная информация 
 def parse(url = URL_sut, head = headers):
     r = requests.get(URL_sut, headers=head)
     soup = bs(r.text, "html.parser")
@@ -29,11 +30,8 @@ def parse(url = URL_sut, head = headers):
                         result_dict["day"].append(days)
                         result_dict["time"].append(time_key)
                         result_dict["information"].append(disc.text.replace("\t", ""))
-    print(result_dict["day"][1])
-    print(result_dict["time"][1])
-    print(result_dict["information"][1])
+
+    df = pd.DataFrame(data=result_dict) 
+    df.to_csv("parsed_data.csv", index=False)
 
     return result_dict
-
-df = pd.DataFrame(data=parse()) 
-df.to_csv("parsed_data.csv", index=False)

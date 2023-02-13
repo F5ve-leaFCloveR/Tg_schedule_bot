@@ -2,6 +2,7 @@ import telebot
 from telebot import types
 import configparser
 import sys
+import parser_sut
 
 
 config = configparser.ConfigParser()
@@ -28,7 +29,7 @@ days = []
 @bot.message_handler(commands=['start']) # обработка команды /start
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True) # создание кнопок
-    btn1 = types.KeyboardButton('Make schedule')
+    btn1 = types.KeyboardButton('View schedule')
     btn2 = types.KeyboardButton('Leave')
     markup.add(btn1, btn2)
     bot.send_message(message.chat.id, 'Choose command', reply_markup=markup) #ответ бота
@@ -37,8 +38,11 @@ def start(message):
 @bot.message_handler(content_types=['text'])  # декоратор обработчик сообщений
 def get_text_messages(message):
 
-    if message.text == 'Make schedule': # создание расписания
-        bot.send_message(message.chat.id, 'Choose month')
+    if message.text == 'View schedule': # показать расписание
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True) # создание кнопок
+        schedule = parser_sut.parse()
+        answer = f'{schedule["information"][0]}'
+        bot.send_message(message.chat.id, answer, reply_markup=markup)
         # bot.register_next_step_handler(message, register_month) # переход к следующему шагу
 
     elif message.text == 'Leave':
@@ -47,7 +51,7 @@ def get_text_messages(message):
         days = []
         markup = types.ReplyKeyboardRemove()
         bot.send_message(message.chat.id, 'Goodbye', reply_markup=markup)
-
+        
 # def register_month(message): # запись выбранного месяца
 #     global month
 #     month = message.text
