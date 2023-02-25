@@ -1,6 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
 import parser_sut
-import time
 
 img = Image.open("patterns\example.jpg")
 shedule = parser_sut.parse()
@@ -15,7 +14,7 @@ def painter(schedule, img = img):
         "3": 370,
         "4": 550,
         "5": 730,
-        "6": 909,
+        "6": 910,
     }
     positions_time = {
         "1": 108,

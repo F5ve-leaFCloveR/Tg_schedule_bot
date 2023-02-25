@@ -3,11 +3,11 @@ from telebot import types
 import configparser
 import sys
 import parser_sut
-
+import Authorization
 
 config = configparser.ConfigParser()
 try: # попытка чтения cfg файла с токеном
-    config.read('token.cfg')
+    config.read('.gitignored/token.cfg')
 except FileNotFoundError:
     print('Error: token.cfg file not found')
     sys.exit(1)
@@ -30,8 +30,9 @@ days = []
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True) # создание кнопок
     btn1 = types.KeyboardButton('View schedule')
-    btn2 = types.KeyboardButton('Leave')
-    markup.add(btn1, btn2)
+    btn2 = types.KeyboardButton('Check in')
+    btn3 = types.KeyboardButton('Leave')
+    markup.add(btn1, btn2, btn3) # добавление кнопок в клавиатуру
     bot.send_message(message.chat.id, 'Choose command', reply_markup=markup) #ответ бота
 
 
@@ -44,6 +45,10 @@ def get_text_messages(message):
         answer = f'{schedule["information"][0]}'
         bot.send_message(message.chat.id, answer, reply_markup=markup)
         # bot.register_next_step_handler(message, register_month) # переход к следующему шагу
+
+    elif message.text == 'Check in': # регистразия на занятии
+        Authorization.authorization_lk()
+        bot.send_message(message.chat.id, 'Вы зарегистрированы на занятии')
 
     elif message.text == 'Leave':
         global month, days
