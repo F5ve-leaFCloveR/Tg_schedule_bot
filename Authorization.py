@@ -32,20 +32,14 @@ def authorization_lk():
 
     # login
     driver.find_element('id', 'users').send_keys(username)
-    time.sleep(1)
     driver.find_element('id', 'parole').send_keys(password)
-    time.sleep(1)
     driver.find_element('id', 'logButton').click()
 
     # navigation on the site
     lodin_first_page = "https://lk.sut.ru/cabinet/?login=yes"
     driver.get(lodin_first_page)
-    html = driver.page_source
-    time.sleep(1)
     driver.find_element(By.ID, 'heading1').click()
-    time.sleep(1)
     driver.find_element('id', 'menu_li_6118').click()
-    time.sleep(1)
 
     # authorization on class through table
     for tr in range(2, 40):
@@ -60,3 +54,4 @@ def authorization_lk():
             break
     driver.quit()
     return True
+authorization_lk()

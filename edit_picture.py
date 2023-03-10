@@ -58,5 +58,5 @@ def painter(schedule, img = img):
         img.save("outputs\image_with_text.jpg")
         index += 1
     
-    return True
+    return Truey
 res = painter(shedule)

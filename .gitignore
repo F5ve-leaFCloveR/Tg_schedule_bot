@@ -1,3 +1,4 @@
 geckodriver.log
 .gitignored/
+__pycache__/parser_sut.cpython-39.pyc
 __pycache__/
