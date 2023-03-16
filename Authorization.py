@@ -54,4 +54,3 @@ def authorization_lk():
             break
     driver.quit()
     return True
-authorization_lk()

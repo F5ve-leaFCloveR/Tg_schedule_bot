@@ -59,4 +59,3 @@ def painter(schedule, img = img):
         index += 1
     
     return True
-res = painter(shedule)
